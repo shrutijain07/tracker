@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,12 +15,33 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { Link, useNavigate} from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 const drawerWidth = 260;
-
-
+const sidebarTexts = [
+    { path: '/activity', name: 'Activity Tracker' },
+    { path: '/leave-tracker', name: 'Leave Application' },
+    { path: '/comp-off', name: 'Comp-off Application' }
+];
 
 export default function Sidebar(props) {
+    const {currentUser, logout} = useAuth()
+    const [error, setError] = useState("")
+    const navigate = useNavigate()
+  
+    async function handleLogout(){
+      setError('')
+      try{
+        await logout()
+        navigate('/login')
+      }
+      catch(error){
+        console.log('%c [ error ]-18', 'font-size:13px; background:pink; color:#bf2c9f;', error)
+        setError("Failed to log out")
+      }
+    }
+
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
@@ -45,13 +66,13 @@ export default function Sidebar(props) {
             <Toolbar className='h4 fw-bold'>DAILY TRACKER</Toolbar>
             <Divider />
             <List>
-                {['Activity Tracker', 'Leave Application', 'Comp-off Application'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                {sidebarTexts.map((text, index) => (
+                    <ListItem key={text.name} disablePadding>
+                        <ListItemButton component={Link} to={text.path}>
                             <ListItemIcon>
                                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={text.name} />
                         </ListItemButton>
                     </ListItem>
                 ))}
@@ -60,7 +81,7 @@ export default function Sidebar(props) {
             <List style={{position: 'absolute', width: '100%', bottom: '20px'}}>
                 {['Logout'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={handleLogout}>
                             <ListItemIcon>
                                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                             </ListItemIcon>

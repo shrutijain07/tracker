@@ -17,7 +17,7 @@ export default function Login() {
         setError('')
         setloading(true)
         await login(emailRef.current.value, passwordRef.current.value)
-        navigate('/dashboard')
+        navigate('/activity')
       }
       catch(error){
         setError('Failed to log in')

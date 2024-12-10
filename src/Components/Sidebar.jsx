@@ -17,7 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link, useNavigate} from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-
+import { useSelector } from 'react-redux';
 const drawerWidth = 260;
 const sidebarTexts = [
     { path: '/activity', name: 'Activity Tracker' },
@@ -29,7 +29,9 @@ export default function Sidebar(props) {
     const {currentUser, logout} = useAuth()
     const [error, setError] = useState("")
     const navigate = useNavigate()
-  
+    const activityCount = useSelector(state=>state)
+    console.log('%c [ activityCount ]-33', 'font-size:13px; background:pink; color:#bf2c9f;', activityCount)
+
     async function handleLogout(){
       setError('')
       try{
@@ -135,11 +137,6 @@ export default function Sidebar(props) {
                     open>
                     {drawer}
                 </Drawer>
-            </Box>
-            <Box
-                component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-                <Toolbar />
             </Box>
         </Box>
     );

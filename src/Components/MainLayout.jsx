@@ -6,7 +6,7 @@ export default function MainLayout() {
   return (
     <div style={{ display: 'flex' }}>
       <Sidebar />
-      <div style={{ flexGrow: 1, padding: '20px' }}>
+      <div style={{ flexGrow: 1, padding: '20px',height: '100vh', width:'100%' }} className='d-flex flex-column justify-content-center align-items-center'>
         <Outlet />
       </div>
     </div>

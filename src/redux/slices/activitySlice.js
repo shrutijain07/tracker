@@ -5,7 +5,7 @@ const activitySlice = createSlice({
     initialState:0,
     reducers: {
         incrementCount: (state,action)=>{
-            state = state + action.payload
+            return state + action.payload; // Explicitly return the new state
         }
     }
 })

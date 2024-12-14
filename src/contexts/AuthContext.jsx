@@ -12,12 +12,45 @@ export function AuthProvider({children}) {
 
   function signup(email,password){
     return createUserWithEmailAndPassword(auth,email,password)
+    .then((userCredential) => {
+      // Get the signed-in user
+      const user = userCredential.user;
+
+      // Retrieve the user's ID token
+      return user.getIdToken().then((token) => {
+        // Store the token in localStorage
+        localStorage.setItem("token", token);
+        return token; // Return the token if needed
+      });
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error("Error during login:", error);
+      throw error;
+    });
   }
-  function login(email,password){
-    return signInWithEmailAndPassword(auth,email,password)
+  function login(email, password) {
+    return signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Get the signed-in user
+        const user = userCredential.user;
+  
+        // Retrieve the user's ID token
+        return user.getIdToken().then((token) => {
+          // Store the token in localStorage
+          localStorage.setItem("token", token);
+          return token; // Return the token if needed
+        });
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error("Error during login:", error);
+        throw error;
+      });
   }
 
   function logout(){
+    localStorage.removeItem('token');
     return auth.signOut()
   }
 

@@ -29,8 +29,7 @@ export default function Sidebar(props) {
     const {currentUser, logout} = useAuth()
     const [error, setError] = useState("")
     const navigate = useNavigate()
-    const activityCount = useSelector(state=>state)
-    console.log('%c [ activityCount ]-33', 'font-size:13px; background:pink; color:#bf2c9f;', activityCount)
+    const stateData = useSelector(state=>state)
 
     async function handleLogout(){
       setError('')
@@ -65,7 +64,7 @@ export default function Sidebar(props) {
 
     const drawer = (
         <div className='d-flex flex-column'>
-            <Toolbar className='h4 fw-bold'>DAILY TRACKER</Toolbar>
+            <Toolbar className='h4 fw-bold'>DAILY TRACKER {stateData.activity}</Toolbar>
             <Divider />
             <List>
                 {sidebarTexts.map((text, index) => (
